@@ -10,12 +10,14 @@ declare(strict_types=1);
  * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
  */
 return [
-    'scan' => [
-        'paths' => [
-            BASE_PATH . '/app',
-        ],
-        'ignore_annotations' => [
-            'mixin',
-        ],
+    'enable' => false,
+    'packer' => Hyperf\Utils\Packer\JsonPacker::class,
+    'use_standalone_process' => true,
+    'namespaces' => [
+        '/application',
     ],
+    'mapping' => [
+        '/application/test' => 'test',
+    ],
+    'interval' => 5,
 ];

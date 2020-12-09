@@ -5,7 +5,7 @@
 # @contact  group@hyperf.io
 # @license  https://github.com/hyperf-cloud/hyperf/blob/master/LICENSE
 
-FROM hyperf/hyperf:7.4-alpine-v3.11-swoole
+FROM hyperf/hyperf:7.4-alpine-v3.11-cli
 LABEL maintainer="Hyperf Developers <group@hyperf.io>" version="1.0" license="MIT" app.name="Hyperf"
 
 ##
@@ -15,11 +15,17 @@ LABEL maintainer="Hyperf Developers <group@hyperf.io>" version="1.0" license="MI
 ARG timezone
 
 ENV TIMEZONE=${timezone:-"Asia/Shanghai"} \
+    COMPOSER_VERSION=1.10.10 \
     APP_ENV=prod \
     SCAN_CACHEABLE=(true)
 
 # update
 RUN set -ex \
+    # install composer
+    && cd /tmp \
+    && wget https://github.com/composer/composer/releases/download/${COMPOSER_VERSION}/composer.phar \
+    && chmod u+x composer.phar \
+    && mv composer.phar /usr/local/bin/composer \
     # show php version and extensions
     && php -v \
     && php -m \
@@ -47,7 +53,7 @@ WORKDIR /opt/www
 # RUN composer install --no-dev --no-scripts
 
 COPY . /opt/www
-RUN composer install --no-dev -o && php bin/hyperf.php
+RUN print "\n" | composer install -o && php bin/hyperf.php
 
 EXPOSE 9501
 

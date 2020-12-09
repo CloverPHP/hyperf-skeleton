@@ -10,12 +10,9 @@ declare(strict_types=1);
  * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
  */
 return [
-    'scan' => [
-        'paths' => [
-            BASE_PATH . '/app',
-        ],
-        'ignore_annotations' => [
-            'mixin',
-        ],
+    'uri' => 'http://127.0.0.1:2379',
+    'version' => 'v3beta',
+    'options' => [
+        'timeout' => 10,
     ],
 ];
